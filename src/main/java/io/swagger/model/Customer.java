@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.*;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Customer
@@ -15,17 +14,21 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-10-21T12:36:17.472Z[GMT]")
 
-
+@Entity
+@Table(name = "customer")
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id = null;
 
     @JsonProperty("username")
     private String username = null;
 
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonProperty("address")
     @Valid
-    private List<Address> address = null;
+    private Set<Address> address = null;
 
     public Customer id(Long id) {
         this.id = id;
@@ -67,14 +70,14 @@ public class Customer {
         this.username = username;
     }
 
-    public Customer address(List<Address> address) {
+    public Customer address(Set<Address> address) {
         this.address = address;
         return this;
     }
 
     public Customer addAddressItem(Address addressItem) {
         if (this.address == null) {
-            this.address = new ArrayList<Address>();
+            this.address = new HashSet<>();
         }
         this.address.add(addressItem);
         return this;
@@ -87,11 +90,11 @@ public class Customer {
      **/
     @Schema(description = "")
     @Valid
-    public List<Address> getAddress() {
+    public Set<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(List<Address> address) {
+    public void setAddress(Set<Address> address) {
         this.address = address;
     }
 

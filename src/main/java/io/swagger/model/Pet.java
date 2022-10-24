@@ -6,11 +6,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Pet
@@ -18,24 +17,31 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-10-21T12:36:17.472Z[GMT]")
 
-
+@Entity
+@Table(name = "pet")
 public class Pet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id = null;
 
     @JsonProperty("name")
     private String name = null;
-
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("category")
     private Category category = null;
 
+    @ElementCollection
     @JsonProperty("photoUrls")
     @Valid
     private List<String> photoUrls = new ArrayList<String>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
     @JsonProperty("tags")
     @Valid
-    private List<Tag> tags = null;
+    private Set<Tag> tags = null;
+
+    @Enumerated(EnumType.STRING)
     @JsonProperty("status")
     private StatusEnum status = null;
 
@@ -127,14 +133,14 @@ public class Pet {
         this.photoUrls = photoUrls;
     }
 
-    public Pet tags(List<Tag> tags) {
+    public Pet tags(Set<Tag> tags) {
         this.tags = tags;
         return this;
     }
 
     public Pet addTagsItem(Tag tagsItem) {
         if (this.tags == null) {
-            this.tags = new ArrayList<Tag>();
+            this.tags = new HashSet<Tag>();
         }
         this.tags.add(tagsItem);
         return this;
@@ -147,11 +153,11 @@ public class Pet {
      **/
     @Schema(description = "")
     @Valid
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
