@@ -21,18 +21,22 @@ public class User {
     @JsonProperty("id")
     private Long id = null;
 
+    @Column(unique=true,nullable = false)
     @JsonProperty("username")
     private String username = null;
 
+    @Column(nullable = false)
     @JsonProperty("firstName")
     private String firstName = null;
 
     @JsonProperty("lastName")
     private String lastName = null;
 
+    @Column(unique=true,nullable = false)
     @JsonProperty("email")
     private String email = null;
 
+    @Column(nullable = false)
     @JsonProperty("password")
     private String password = null;
 

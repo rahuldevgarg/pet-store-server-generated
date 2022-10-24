@@ -2,6 +2,8 @@ package io.swagger.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.model.User;
+import io.swagger.services.Impl.UserServiceImpl;
+import io.swagger.services.UserService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,24 +33,23 @@ public class UserApiController implements UserApi {
 
     private final HttpServletRequest request;
 
+    private final UserService userService;
+
     @Autowired
-    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request, UserService userService) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.userService = userService;
     }
 
     public ResponseEntity<User> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "Created user object", schema = @Schema()) @Valid @RequestBody User body) {
-        String accept = request.getHeader("Accept");
+        String accept = request.getHeader("accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<User>(objectMapper.readValue("{\n  \"firstName\" : \"John\",\n  \"lastName\" : \"James\",\n  \"password\" : \"12345\",\n  \"userStatus\" : 1,\n  \"phone\" : \"12345\",\n  \"id\" : 10,\n  \"email\" : \"john@email.com\",\n  \"username\" : \"theUser\"\n}", User.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            User user = userService.createUser(body);
+            return new ResponseEntity<User>(user, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<User>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public ResponseEntity<User> createUsersWithListInput(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody List<User> body) {
