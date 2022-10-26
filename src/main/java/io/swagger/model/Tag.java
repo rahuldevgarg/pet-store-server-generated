@@ -21,6 +21,7 @@ public class Tag {
     @JsonProperty("id")
     private Long id = null;
 
+    @Column(unique=true,nullable = false)
     @JsonProperty("name")
     private String name = null;
 

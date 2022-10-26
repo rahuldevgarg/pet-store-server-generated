@@ -27,7 +27,7 @@ public class Pet {
 
     @JsonProperty("name")
     private String name = null;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JsonProperty("category")
     private Category category = null;
 
@@ -36,7 +36,7 @@ public class Pet {
     @Valid
     private List<String> photoUrls = new ArrayList<String>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.DETACH)
     @JsonProperty("tags")
     @Valid
     private Set<Tag> tags = null;
