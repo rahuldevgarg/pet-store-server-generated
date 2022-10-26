@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -45,6 +47,29 @@ public class User {
 
     @JsonProperty("userStatus")
     private Integer userStatus = null;
+
+    @JsonProperty("enabled")
+    private boolean enabled;
+
+    @JsonProperty("tokenExpired")
+    private boolean tokenExpired;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
 
     public User id(Long id) {
         this.id = id;
@@ -207,6 +232,22 @@ public class User {
     }
 
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isTokenExpired() {
+        return tokenExpired;
+    }
+
+    public void setTokenExpired(boolean tokenExpired) {
+        this.tokenExpired = tokenExpired;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -223,7 +264,9 @@ public class User {
                 Objects.equals(this.email, user.email) &&
                 Objects.equals(this.password, user.password) &&
                 Objects.equals(this.phone, user.phone) &&
-                Objects.equals(this.userStatus, user.userStatus);
+                Objects.equals(this.userStatus, user.userStatus)&&
+                Objects.equals(this.enabled, user.enabled)&&
+                Objects.equals(this.tokenExpired, user.tokenExpired);
     }
 
     @Override
