@@ -18,19 +18,16 @@ import java.util.Objects;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-10-21T12:36:17.472Z[GMT]")
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id = null;
-
     @JsonProperty("petId")
     private Long petId = null;
-
     @JsonProperty("quantity")
     private Integer quantity = null;
-
     @JsonProperty("shipDate")
     private OffsetDateTime shipDate = null;
     @JsonProperty("status")
