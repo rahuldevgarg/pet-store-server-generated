@@ -26,7 +26,7 @@ public interface UserApi {
 
     @Operation(summary = "Create user", description = "This can only be done by the logged in user.", tags = {"user"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)))})
+            @ApiResponse(responseCode = "201", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)))})
     @RequestMapping(value = "/user",
             produces = {"application/json", "application/xml"},
             consumes = {"application/json", "application/xml", "application/x-www-form-urlencoded"},
@@ -36,14 +36,14 @@ public interface UserApi {
 
     @Operation(summary = "Creates list of users with given input array", description = "Creates list of users with given input array", tags = {"user"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "201", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
 
-            @ApiResponse(responseCode = "200", description = "successful operation")})
+            @ApiResponse(responseCode = "201", description = "successful operation")})
     @RequestMapping(value = "/user/createWithList",
             produces = {"application/json", "application/xml"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<User> createUsersWithListInput(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody List<User> body);
+    ResponseEntity<List<User>> createUsersWithListInput(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody List<User> body);
 
 
     @Operation(summary = "Delete user", description = "This can only be done by the logged in user.", tags = {"user"})
