@@ -21,12 +21,8 @@ public class SpringSecurityConfiguration  extends WebSecurityConfigurerAdapter {
     private MyUserDetailsService authenticateUserDetailService;
 
     private String ADMIN = "ADMIN";
-    private String BRAND_ADMIN_WRITE = "BRAND_ADMIN_WRITE";
-    private String BRAND_ADMIN_READ = "BRAND_ADMIN_READ";
-    private String WAREHOUSE_STAFF_WRITE = "WAREHOUSE_STAFF_WRITE";
-    private String WAREHOUSE_STAFF_READ = "WAREHOUSE_STAFF_READ";
-    private String STORE_STAFF_READ = "STORE_STAFF_READ";
-    private String STORE_STAFF_WRITE = "STORE_STAFF_WRITE";
+    private String USER_WRITE = "USER_WRITE";
+    private String USER_READ = "USER_READ";
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v3 (OpenAPI)
             "/api-docs/**",

@@ -5,6 +5,7 @@
  */
 package io.swagger.api;
 
+import io.swagger.model.LoginResponseDTO;
 import io.swagger.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -77,7 +79,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
             produces = {"application/xml", "application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<String> loginUser(@Parameter(in = ParameterIn.QUERY, description = "The user name for login", schema = @Schema()) @Valid @RequestParam(value = "username", required = false) String username, @Parameter(in = ParameterIn.QUERY, description = "The password for login in clear text", schema = @Schema()) @Valid @RequestParam(value = "password", required = false) String password);
+    ResponseEntity<LoginResponseDTO> loginUser(@Parameter(in = ParameterIn.QUERY, description = "The user name for login", schema = @Schema()) @Valid @RequestParam(value = "username", required = false) String username, @Parameter(in = ParameterIn.QUERY, description = "The password for login in clear text", schema = @Schema()) @Valid @RequestParam(value = "password", required = false) String password);
 
 
     @Operation(summary = "Logs out current logged in user session", description = "", tags = {"user"})
@@ -85,7 +87,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "successful operation")})
     @RequestMapping(value = "/user/logout",
             method = RequestMethod.GET)
-    ResponseEntity<Void> logoutUser();
+    ResponseEntity<Void> logoutUser() throws ServletException;
 
 
     @Operation(summary = "Update user", description = "This can only be done by the logged in user.", tags = {"user"})
